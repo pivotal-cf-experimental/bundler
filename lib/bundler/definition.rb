@@ -307,6 +307,11 @@ module Bundler
         out << "  #{p}\n"
       end
 
+      if ruby_version
+        out << "\nRUBY VERSION\n"
+        out << "   #{Bundler.ruby_version}\n"
+      end
+
       out << "\n"
       out << "DEPENDENCIES\n"
 
