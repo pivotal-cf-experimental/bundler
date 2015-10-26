@@ -359,10 +359,22 @@ describe "bundle install with gem sources" do
       install_gemfile <<-G
         Object::RUBY_VERSION = '2.1.3'
         Object::RUBY_PATCHLEVEL = 100
-        ruby '~> 2.1.3'
+        ruby '~> 2.1.0'
       G
       lockfile_should_be <<-L
-        hey
+       GEM
+         specs:
+
+       PLATFORMS
+         ruby
+
+       RUBY VERSION
+          ruby 2.1.3p100
+
+       DEPENDENCIES
+
+       BUNDLED WITH
+          1.10.7
       L
     end
 
