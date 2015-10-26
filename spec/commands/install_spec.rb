@@ -1,4 +1,5 @@
 require "spec_helper"
+require 'open3'
 
 describe "bundle install with gem sources" do
   describe "the simple case" do
@@ -339,6 +340,34 @@ describe "bundle install with gem sources" do
       expect(exitstatus).to eq(0) if exitstatus
     end
   end
+
+  describe "Ruby version in Gemfile.lock" do
+    include Bundler::GemHelpers
+
+    it "prints an error" do
+      install_gemfile <<-G
+        Object::RUBY_VERSION = '1.8.7'
+        ruby '~> 2.1'
+      G
+      expect(out).to include("Your Ruby version is 1.8.7, but your Gemfile specified ~> 2.1")
+    end
+
+  end
+
+  describe "put it outside" do
+    it "writes current Ruby version to Gemfile.lock" do
+      install_gemfile <<-G
+        Object::RUBY_VERSION = '2.1.3'
+        Object::RUBY_PATCHLEVEL = 100
+        ruby '~> 2.1.3'
+      G
+      lockfile_should_be <<-L
+        hey
+      L
+    end
+
+  end
+
 
   describe "when Bundler root contains regex chars" do
     before do
